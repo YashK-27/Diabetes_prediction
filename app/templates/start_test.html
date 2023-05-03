@@ -1,0 +1,205 @@
+{% extends "index.html" %} {% block content %}
+
+<div class="p-10 pt-28 lg:p-40 border rounded-2xl">
+  <div class="hero p-36 bg-base-200 rounded-2xl">
+    <div class="hero-content text-center">
+      <div id="start" class="">
+        <div class="max-w-md">
+          <h1 class="text-4xl lg:text-5xl font-bold">Start A Test</h1>
+          <p class="py-6">Start A Test</p>
+          <button class="btn btn-primary" onclick="start()">Get Started</button>
+        </div>
+      </div>
+      <div id="start1" class="hidden">
+        <div class="form-control w-full max-w-xs">
+          <label class="label">
+            <span class="text-2xl">Pregnancies?</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Type here"
+            class="input input-bordered w-full max-w-xs"
+            id="start1_name"
+            required
+          />
+          <div class="mt-10">
+            <button class="btn btn-active btn-primary" onclick="start1()">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="start2" class="hidden">
+        <div class="form-control w-full max-w-xs">
+          <label class="label">
+            <span class="text-2xl">Glucose?</span>
+          </label>
+          <input
+            type="text"
+            id="start2_name"
+            placeholder="Type here"
+            class="input input-bordered w-full max-w-xs"
+          />
+          <div class="mt-10">
+            <button class="btn btn-active btn-primary" onclick="start2()">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="start3" class="hidden">
+        <div class="form-control w-full max-w-xs">
+          <label class="label">
+            <span class="text-2xl">BloodPressure?</span>
+          </label>
+          <input
+            type="text"
+            id="start3_name"
+            placeholder="Type here"
+            class="input input-bordered w-full max-w-xs"
+          />
+          <div class="mt-10">
+            <button class="btn btn-active btn-primary" onclick="start3()">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="start4" class="hidden">
+        <div class="form-control w-full max-w-xs">
+          <label class="label">
+            <span class="text-2xl">Skin Thickness?</span>
+          </label>
+          <input
+            type="text"
+            id="start4_name"
+            placeholder="Type here"
+            class="input input-bordered w-full max-w-xs"
+          />
+          <div class="mt-10">
+            <button class="btn btn-active btn-primary" onclick="start4()">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="start5" class="hidden">
+        <div class="form-control w-full max-w-xs">
+          <label class="label">
+            <span class="text-2xl">Insulin?</span>
+          </label>
+          <input
+            type="text"
+            id="start5_name"
+            placeholder="Type here"
+            class="input input-bordered w-full max-w-xs"
+          />
+          <div class="mt-10">
+            <button class="btn btn-active btn-primary" onclick="start5()">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="start10" class="hidden">
+        <h1 id="response" class="text-3xl"></h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block script %}
+<script>
+  var data = [];
+  function add_details(x) {
+    data.push(x);
+    console.log(data);
+  }
+
+  function start() {
+    console.log(document.getElementById("start").classList.add("hidden"));
+    console.log(document.getElementById("start1").classList.remove("hidden"));
+  }
+
+  function start1() {
+    if (document.getElementById("start1_name").value) {
+      console.log(document.getElementById("start1").classList.add("hidden"));
+      console.log(document.getElementById("start2").classList.remove("hidden"));
+      x = document.getElementById("start1_name").value;
+      add_details(x);
+    } else {
+      document.getElementById("start1_name").classList.add("input-error");
+    }
+  }
+  function start2() {
+    if (document.getElementById("start2_name").value) {
+      console.log(document.getElementById("start2").classList.add("hidden"));
+      console.log(document.getElementById("start3").classList.remove("hidden"));
+
+      x = document.getElementById("start2_name").value;
+      add_details(x);
+    } else {
+      document.getElementById("start2_name").classList.add("input-error");
+    }
+  }
+  function start3() {
+    if (document.getElementById("start3_name").value) {
+      console.log(document.getElementById("start3").classList.add("hidden"));
+      console.log(document.getElementById("start4").classList.remove("hidden"));
+
+      x = document.getElementById("start3_name").value;
+      add_details(x);
+    } else {
+      document.getElementById("start3_name").classList.add("input-error");
+    }
+  }
+  function start4() {
+    if (document.getElementById("start4_name").value) {
+      console.log(document.getElementById("start4").classList.add("hidden"));
+      console.log(document.getElementById("start5").classList.remove("hidden"));
+
+      x = document.getElementById("start4_name").value;
+      add_details(x);
+    } else {
+      document.getElementById("start4_name").classList.add("input-error");
+    }
+  }
+
+  function start10() {
+    if (document.getElementById("start4_name").value) {
+      console.log(document.getElementById("start5").classList.add("hidden"));
+      console.log(
+        document.getElementById("start10").classList.remove("hidden")
+      );
+    } else {
+      document.getElementById("start4_name").classList.add("input-error");
+    }
+  }
+  function start5() {
+    const url = "/api";
+
+    const data1 = {
+      data,
+    };
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data1),
+    })
+      .then((response) => response.json())
+      .then((data1) => {
+        document.getElementById("response").innerHTML = data1.status;
+        start10();
+        console.log("Success:", data1);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+</script>
+{% endblock %}
